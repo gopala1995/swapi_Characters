@@ -61,31 +61,6 @@ const Characters = () => {
 
   console.log("===>", filteredCharacters);
   return (
-    // <div>
-    //   {filteredCharacters.length === 0 && !loading ? (
-    //     <h4 className="no-results">
-    //       Silent is the Force. Life forms in this galaxy, found not.
-    //     </h4>
-    //   ) : (
-    //     <ul className="character-list">
-    //       {filteredCharacters.map((person, index) => (
-    //         <li key={index}>
-    //           <img
-    //             className="character-img"
-    //             src={characterImage(person.name)}
-    //             alt={person.name}
-    //           />
-    //           <div className="character-info">
-    //             <h4>{person.name}</h4>
-    //             <p>Planet: {findPlanetName(person.homeworld)}</p>
-    //             <p>Birth year: {person.birth_year}</p>
-    //           </div>
-    //           {/* <CharacterModal character={person} /> */}
-    //         </li>
-    //       ))}
-    //     </ul>
-    //   )}
-    // </div>
     <>
       {filteredCharacters.length === 0 && !loading ? (
         <h4 className="no-results">Life forms in this galaxy, found not.</h4>

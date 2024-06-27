@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import { ChakraProvider } from "@chakra-ui/react";
 import "./App.css";
 import Home from "./Home";

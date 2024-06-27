@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./Characters.css";
 import {
   Card,
-  CardHeader,
   Grid,
   Button,
   Divider,
@@ -14,22 +13,28 @@ import {
   CardBody,
   CardFooter,
 } from "@chakra-ui/react";
+import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 
 const Characters = () => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [handleSearch, setHandleSearch] = useState("");
   const [planets, setPlanets] = useState([]);
+  const [page, setPage] = useState(1);
 
+  if (page <= 0) {
+    setPage(1);
+  }
   useEffect(() => {
     const getCharacters = async () => {
-      const response = await fetch(`https://swapi.dev/api/people/`);
+      const response = await fetch(
+        `https://swapi.dev/api/people/?page=${page}`
+      );
       const data = await response.json();
       setCharacters(data.results);
       setLoading(false);
     };
     getCharacters();
-  }, [handleSearch]);
+  }, [page]);
 
   useEffect(() => {
     const getPlanet = async () => {
@@ -81,44 +86,82 @@ const Characters = () => {
     //     </ul>
     //   )}
     // </div>
-    <Grid templateColumns="repeat(5, 1fr)" gap={6}>
-      {filteredCharacters.map((person, index) => (
-        <Card maxW="sm" key={index} bg="none">
-          <CardBody>
-            <Image
-              src={`https://peaceful-nasturtium-a1fa14.netlify.app/${characterImage(
-                person.name
-              )}`}
-              alt={person.name}
-              borderRadius="lg"
-            />
-            <Stack mt="6" spacing="2">
-              <Heading  color="#ffe81f" fontSize="md">
-                {person.name}
-              </Heading>
-              <Text color="white" variant="h4">
-                Planet : {findPlanetName(person.homeworld)}
-              </Text>
-              <Text color="white">Skin Color : {person.skin_color}</Text>
-              <Text color="white">
-                Birth year : {person.birth_year}
-              </Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing="2">
-              <Button size="sm" variant="solid" colorScheme="blue">
-                info
-              </Button>
-              <Button size="sm" variant="ghost" colorScheme="blue">
-                favorite
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-      ))}
-    </Grid>
+    <>
+      {filteredCharacters.length === 0 && !loading ? (
+        <h4 className="no-results">Life forms in this galaxy, found not.</h4>
+      ) : (
+        <Grid templateColumns="repeat(5, 1fr)" gap={6}>
+          {filteredCharacters.map((person, index) => (
+            <Card maxW="sm" key={index} bg="none">
+              <CardBody>
+                <Image
+                  src={`https://peaceful-nasturtium-a1fa14.netlify.app/${characterImage(
+                    person.name
+                  )}`}
+                  alt={person.name}
+                  borderRadius="lg"
+                />
+                <Stack mt="6" spacing="2">
+                  <Heading color="#ffe81f" fontSize="md">
+                    {person.name}
+                  </Heading>
+                  <Text color="white" variant="h4">
+                    Planet : {findPlanetName(person.homeworld)}
+                  </Text>
+                  <Text color="white">Skin Color : {person.skin_color}</Text>
+                  <Text color="white">Birth Year : {person.birth_year}</Text>
+                </Stack>
+              </CardBody>
+              <Divider />
+              <CardFooter>
+                <ButtonGroup spacing="2">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    border="1px"
+                    colorScheme="blue"
+                  >
+                    Info
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    border="1px"
+                    colorScheme="blue"
+                  >
+                    Favorite
+                  </Button>
+                </ButtonGroup>
+              </CardFooter>
+            </Card>
+          ))}
+        </Grid>
+      )}
+
+      <Grid templateColumns="repeat(3, 1fr)" mt={9} gap={3}>
+        <ArrowLeftIcon
+          fontWeight="bold"
+          color="#ffe81f"
+          ml={3}
+          bg="none"
+          onClick={() => setPage(page - 1)}
+        />
+
+        <Text flexShrink="0" color="white" mr={8}>
+          Page -
+          <Text fontWeight="bold" ml={3} as="span">
+            {page}
+          </Text>
+        </Text>
+        <ArrowRightIcon
+          fontWeight="bold"
+          color="#ffe81f"
+          ml={3}
+          bg="none"
+          onClick={() => setPage(page + 1)}
+        />
+      </Grid>
+    </>
   );
 };
 

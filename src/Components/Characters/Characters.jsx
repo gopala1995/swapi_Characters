@@ -14,6 +14,7 @@ import {
   CardFooter,
 } from "@chakra-ui/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
+import CharacterInfo from "../CharactersModel/CharacterModel";
 
 const Characters = () => {
   const [characters, setCharacters] = useState([]);
@@ -90,21 +91,9 @@ const Characters = () => {
               <Divider />
               <CardFooter>
                 <ButtonGroup spacing="2">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    border="1px"
-                    colorScheme="blue"
-                  >
-                    Info
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    border="1px"
-                    colorScheme="blue"
-                  >
-                    Favorite
+                  <CharacterInfo character={person} />
+                  <Button className="button-outline" bg="none" color="white">
+                    ♡
                   </Button>
                 </ButtonGroup>
               </CardFooter>
